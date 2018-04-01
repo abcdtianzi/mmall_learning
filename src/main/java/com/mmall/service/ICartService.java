@@ -1,5 +1,8 @@
 package com.mmall.service;
 
+import com.mmall.common.ServerResponse;
+import com.mmall.vo.CartVo;
+
 /**
  * Created with IntelliJ IDEA.
  * Description:
@@ -7,5 +10,19 @@ package com.mmall.service;
  * Date: 2018-03-15
  * Time: 下午11:59
  */
-public class ICartService {
-}
+public interface ICartService {
+
+    ServerResponse<CartVo> add(Integer userId, Integer productId, Integer count);
+
+    ServerResponse<CartVo> update(Integer userId,Integer productId,Integer count);
+
+    ServerResponse<CartVo> deleteProduct(Integer userId,String productIds);
+
+    ServerResponse<CartVo> list (Integer userId);
+
+     ServerResponse<CartVo> selectOrUnSelect (Integer userId,Integer productId,Integer checked);
+
+    ServerResponse<Integer> getCartProductCount(Integer userId);
+
+
+    }

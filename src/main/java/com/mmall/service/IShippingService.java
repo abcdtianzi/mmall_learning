@@ -13,4 +13,12 @@ import com.mmall.pojo.Shipping;
 public interface IShippingService {
     ServerResponse add(Integer userId, Shipping shipping);
 
+    ServerResponse del(Integer userId, Integer shippingId);
+
+    ServerResponse update(Integer userId, Shipping shipping);
+
+    ServerResponse select(Integer userId, Integer shippingId);
+
+    ServerResponse list(Integer userId,int pageNum,int pageSize);
+
 }

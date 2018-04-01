@@ -201,7 +201,7 @@
     </dependency>
 
 
-    <!-- alipay -->
+    <!-- alipay ,版本保持一致-->
     <dependency>
       <groupId>commons-codec</groupId>
       <artifactId>commons-codec</artifactId>
@@ -274,6 +274,7 @@
           <target>1.7</target>
           <encoding>UTF-8</encoding>
           <compilerArguments>
+            <!--为了把本地jar一起编译到发布包上，jar包存在lib文件夹上，没有这句话会发送找不到class not found异常，所以这句话非常重要-->
             <extdirs>${project.basedir}/src/main/webapp/WEB-INF/lib</extdirs>
           </compilerArguments>
         </configuration>

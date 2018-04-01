@@ -1,6 +1,5 @@
 package com.mmall.common;
 
-import com.sun.org.apache.xpath.internal.operations.String;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
@@ -52,7 +51,6 @@ public class ServerResponse<T> implements Serializable {
     public static <T> ServerResponse<T> createBySuccess() {
         return new ServerResponse<T>(ResponseCode.SUCCESS.getCode());
     }
-
 
     //方法名不一样是为了区分String和T泛型类型的冲突，调用createBySuccess是用T，调用createBySuccessMessage是用String
     public static <T> ServerResponse<T> createBySuccessMessage(String msg) {

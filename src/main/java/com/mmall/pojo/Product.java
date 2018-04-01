@@ -20,6 +20,7 @@ public class Product {
 
     private BigDecimal price;
 
+    //库存数量
     private Integer stock;
 
     private Integer status;

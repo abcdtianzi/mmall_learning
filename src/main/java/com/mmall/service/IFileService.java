@@ -1,5 +1,7 @@
 package com.mmall.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
 /**
  * Created with IntelliJ IDEA.
  * Description:
@@ -7,5 +9,11 @@ package com.mmall.service;
  * Date: 2018-03-13
  * Time: 下午10:00
  */
-public class IFileService {
+public interface IFileService {
+
+    String upload(MultipartFile file, String path);
+
+
+
+
 }
