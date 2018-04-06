@@ -27,6 +27,7 @@ public class FileServiceImpl implements IFileService{
 
     @Override
     public String upload(MultipartFile file, String path){
+        //getOriginalFilename获取文件原名，getName : 获取表单中文件组件的名字
         String fileName = file.getOriginalFilename();
         //获取扩展名
         String fileExtensionName = fileName.substring(fileName.lastIndexOf(".")+1);
