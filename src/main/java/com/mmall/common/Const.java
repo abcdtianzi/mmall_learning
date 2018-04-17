@@ -8,6 +8,12 @@ public class Const {
     public static final String CURRENT_USER = "currentUser";
     public static final String USERNAME = "username";
     public static final String EMAIL = "email";
+    public static final String TOKEN_PREFIX = "token_";
+
+    //redis缓存时间
+    public interface RedisCacheExtime{
+        int REDIS_SESSION_EXTIME = 60 * 30 ;//30分钟
+    }
 
     //内部接口类，里面的变量是常量
     public  interface Role{
