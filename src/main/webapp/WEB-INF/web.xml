@@ -24,13 +24,23 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
-  <!--二期：新增session时间的filter来重置时间-->
-  <filter>
+  <!--二期：新增session时间的filter来重置时间,通过custome-cookie方式-->
+  <!--<filter>
     <filter-name>sessionExpireFilter</filter-name>
     <filter-class>com.mmall.controller.common.SessionExpireFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>sessionExpireFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+  </filter-mapping>
+-->
+  <!--spring session filter-->
+  <filter>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>springSessionRepositoryFilter</filter-name>
     <url-pattern>*.do</url-pattern>
   </filter-mapping>
 
