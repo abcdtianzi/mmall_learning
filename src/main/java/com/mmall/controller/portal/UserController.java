@@ -10,7 +10,10 @@ import com.mmall.util.CookieUtil;
 import com.mmall.util.JsonUtil;
 import com.mmall.util.RedisShardedPoolUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,11 +30,19 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user/")
-public class UserController {
+public class UserController  implements ApplicationContextAware{
 
     @Autowired
     private IUserService userService;
 
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        System.out.println("*******************************");
+        for(String name :applicationContext.getBeanDefinitionNames()){
+            System.out.println(name);
+        }
+
+    }
 
     /**
      * 用户登录
@@ -40,6 +51,9 @@ public class UserController {
     @ResponseBody
     public ServerResponse<User> login(String username, String password, HttpSession session,
                                       HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
+
+
+
         ServerResponse<User> response = userService.login(username, password);
         //设置session
         if (response.isSuccess()) {

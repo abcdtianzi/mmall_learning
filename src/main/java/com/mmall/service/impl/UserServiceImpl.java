@@ -9,7 +9,10 @@ import com.mmall.service.IUserService;
 import com.mmall.util.MD5Util;
 import com.mmall.util.RedisShardedPoolUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -18,14 +21,23 @@ import java.util.UUID;
  * Created by ting on 2018/3/10.
  */
 @Service("iUserService")
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements IUserService ,ApplicationContextAware{
 
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        System.out.println("------------------------------------");
+        for(String name :applicationContext.getBeanDefinitionNames()){
+            System.out.println(name);
+        }
+
+    }
 
     @Autowired
     private UserMapper userMapper;
 
     @Override
     public ServerResponse<User> login(String username, String password) {
+
         int resultCount = userMapper.checkUserName(username);
 
         if (resultCount == 0) {

@@ -22,4 +22,7 @@ public interface ProductMapper {
 
     List<Product> selectByNameAndProductId(@Param("productName") String productName, @Param("productId") Integer productId);
 
+    //使用悲观锁for update锁行,查询库存,记得要用主键+where条件锁行，否则会锁表，同时必须支持innodb引擎的数据库
+    Integer selectStockByProductId(Integer id);
+
 }

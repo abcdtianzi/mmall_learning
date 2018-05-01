@@ -27,6 +27,7 @@ import com.mmall.vo.OrderVo;
 import com.mmall.vo.ShippingVo;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +36,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -366,6 +364,8 @@ public class OrderServiceImpl implements IOrderService {
         return ServerResponse.createBySuccess(orderProductVo);
     }
 
+
+
     private OrderVo assembleOrderVo(Order order, List<OrderItem> orderItemList) {
         OrderVo orderVo = new OrderVo();
         orderVo.setOrderNo(order.getOrderNo());
@@ -522,5 +522,34 @@ public class OrderServiceImpl implements IOrderService {
         return ServerResponse.createBySuccess(orderItemList);
     }
 
+
+
+    @Override
+    public void closeOrder(int hour) {
+        //算出hour时间之前的时间
+        Date closeDateTime = DateUtils.addHours(new Date(),-hour);
+        //关单需要把库存更新回Product表中，
+        List<Order> orderList = orderMapper.selectOrderStatusByCreateTime(Const.OrderStatusEnum.NO_PAY.getCode(),DateTimeUtil.dateToStr(closeDateTime));
+        for (Order order:orderList){
+            List<OrderItem> orderItemList = orderItemMapper.getByOrderNo(order.getOrderNo());
+            for(OrderItem orderItem:orderItemList){
+                //更新前的查询先锁行再更新回库存数据（for update且要主键+where条件），通过悲观锁防止集群环境下重复加库存和线程安全问题
+                Integer stock = productMapper.selectStockByProductId(orderItem.getProductId());
+                //考虑到订单的商品已经被删除的情况跳过
+                if(stock == null){
+                    continue;
+                }
+                Product product = new Product();
+                product.setStock(orderItem.getQuantity()+stock);//把订单库存加回去
+                product.setId(orderItem.getProductId());
+                productMapper.updateByPrimaryKeySelective(product);
+            }
+            //关闭订单
+            orderMapper.closeOrderByOrderId(order.getId());
+            logger.info("关闭订单的NO：{}",order.getOrderNo());
+
+        }
+
+    }
 
 }

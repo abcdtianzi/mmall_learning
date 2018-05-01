@@ -25,4 +25,7 @@ public interface IOrderService {
 
     ServerResponse getOrderCartProduct(Integer userId);
 
+    //hour个小时未付款会关闭订单
+    void closeOrder(int hour);
+
 }

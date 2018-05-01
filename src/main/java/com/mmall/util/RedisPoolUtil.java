@@ -51,7 +51,24 @@ public class RedisPoolUtil {
         return result;
     }
 
-//endTime单位为s
+    public static Long setnx(String key,String value){
+        Jedis jedis = null;
+        Long result = null;
+
+        try {
+            jedis = RedisPool.getJedis();
+            result = jedis.setnx(key, value);
+        } catch (Exception e) {
+            logger.error("set key:{} value {} error",key,value,e);
+            //返回损坏实例
+            RedisPool.returnBokenResource(jedis);
+            return result;
+        }
+        RedisPool.returnResource(jedis);
+        return result;
+    }
+
+//endTime单位为s,插入带过期时间键值
     public static String setEx(String key,String value,int endTime){
         Jedis jedis = null;
         String result = null;
