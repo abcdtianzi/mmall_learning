@@ -25,7 +25,7 @@ public class UserServiceImpl implements IUserService ,ApplicationContextAware{
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        System.out.println("------------------------------------");
+        System.out.println("---------------spring---------------------");
         for(String name :applicationContext.getBeanDefinitionNames()){
             System.out.println(name);
         }

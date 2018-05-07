@@ -87,7 +87,6 @@ public class AuthorityInterceptor implements HandlerInterceptor {
             } else {
                 out.print(JsonUtil.obj2String(ServerResponse.createByErrorMessage("拦截器拦截：用户不是管理员，无权限操作")));
             }
-
             out.close();
             //返回false.即不会调用controller里的方法
             return false;
