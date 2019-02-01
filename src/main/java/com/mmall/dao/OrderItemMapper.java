@@ -22,7 +22,7 @@ public interface OrderItemMapper {
 
     List<OrderItem> getByOrderNo(@Param("orderNo")Long orderNo);
 
-    void batchInsert(@Param("orderItemList") List<OrderItem> orderItemList);
+    void  batchInsert(@Param("orderItemList") List<OrderItem> orderItemList);
 
 
 }
